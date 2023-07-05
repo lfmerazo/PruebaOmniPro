@@ -13,7 +13,6 @@ Feature: Funcionalidades en CuraHealtCare
         |username |password          |
         |John Doe |ThisIsNotAPassword|
 
-
     @login-no-exitoso
     Scenario Outline: Validar que no inicie sesión
       When ingreso el usuario <username> y contrasenia <password> incorrectos
@@ -21,3 +20,13 @@ Feature: Funcionalidades en CuraHealtCare
       Examples: [UNHAPPY PATH]
         |username |password         |
         |John Doe |ThisIsNotAPassword1|
+
+    @cita-exitosa
+    Scenario Outline: Validar que se agende mi cita
+      When ingreso el usuario <username> y contrasenia <password> correctos
+      And diligencio la solicitud de cita <facility>, <readmision>, <Healthcare>, <visitDate> y <comment>
+      Then se agenda la cita de manera exitosa con los datos registrados <facility>, <readmision>, <Healthcare>, <visitDate> y <comment>
+      Examples: [HAPPY PATH]
+        |username |password          |facility                        |readmision |Healthcare |visitDate  |comment                    |
+        |John Doe |ThisIsNotAPassword|Hongkong CURA Healthcare Center |Yes        |Medicaid   |28/04/2023 |cita médica taller final QA|
+
