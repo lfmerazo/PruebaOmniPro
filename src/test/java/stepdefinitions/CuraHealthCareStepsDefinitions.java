@@ -16,13 +16,19 @@ public class CuraHealthCareStepsDefinitions {
     @Steps
     AppointmentPage appointment;
 
+    @Steps
+    HistoryPage historyPage;
+    @Steps
+    ProfilePage profilePage;
+
+    //******************** Background ********************/
     @Given("^que el usuario ingresa a la web CURA Healthcare Service$")
     public void queElUsuarioIngresaALaWebCURAHealthcareService(){
         homePage.open();
         homePage.irALoginPage();
     }
 
-    // Escenario Login-exitoso
+    //******************** Escenario Login-exitoso ********************/
     @When("^ingreso el usuario (.*) y contrasenia (.*) correctos$")
     public void ingresoElUsuarioYContraseniaCorrectos(String username, String password) {
         loginPage.ingresarCredenciales(username,password);
@@ -33,7 +39,7 @@ public class CuraHealthCareStepsDefinitions {
         loginPage.validarLoginExitoso();
     }
 
-    // Escenario Login-no-exitoso
+    //******************** Escenario Login-no-exitoso ********************//
 
     @When("^ingreso el usuario (.*) y contrasenia (.*) incorrectos$")
     public void ingresoElUsuarioYContraseniaIncorrectos(String username, String password) {
@@ -45,7 +51,7 @@ public class CuraHealthCareStepsDefinitions {
         loginPage.validarLoginNoExitoso();
     }
 
-    // Escenario cita-exitosa
+    //******************** Escenario cita-exitosa ********************//
 
     @And("^diligencio la solicitud de cita (.*), (.*), (.*), (.*) y (.*)$")
     public void diligencioLaSolicitudDeCita(String facility, String readmission, String programHealthcare, String visitDate, String comment) throws InterruptedException {
@@ -57,4 +63,31 @@ public class CuraHealthCareStepsDefinitions {
         appointment.validarappointmentExitoso(facility, readmission, programHealthcare, visitDate, comment);
     }
 
+    //******************** Escenario cita-historial ********************//
+
+    @And("^diligencio la solicitud de cita con fecha (.*)$")
+    public void diligencioLaSolicitudDeCitaConFechaVisitDate(String fechaCita) throws InterruptedException {
+        appointment.diligenciarFormCita("Thiago Medina", "No","medicare", fechaCita, "Cita de control");
+    }
+
+    @And("^ingreso al historial de citas$")
+    public void ingresoAlHistorialDeCitas() {
+        homePage.irAHistoryPage();
+    }
+
+    @Then("^se visualiza mi fecha (.*) de cita en el historial$")
+    public void seVisualizaMiFechaVisitDateDeCitaEnElHistorial(String fechaCita) {
+        historyPage.validarCitaEnHistorial(fechaCita);
+    }
+
+    //******************** Escenario pagina-profile ********************//
+    @And("^selecciono el tab Profile$")
+    public void seleccionoElTabProfile() {
+        homePage.irAProfilePage();
+    }
+
+    @Then("^se visualiza la página Profile con título (.*)$")
+    public void seVisualizaLaPáginaProfileConTítuloTitleProfilePage(String titleProfilePage) {
+        profilePage.validarTitleProfilePage(titleProfilePage);
+    }
 }

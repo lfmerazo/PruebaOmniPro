@@ -30,3 +30,22 @@ Feature: Funcionalidades en CuraHealtCare
         |username |password          |facility                        |readmision |Healthcare |visitDate  |comment                    |
         |John Doe |ThisIsNotAPassword|Hongkong CURA Healthcare Center |Yes        |Medicaid   |28/04/2023 |cita médica taller final QA|
 
+    @cita-historial
+    Scenario Outline: Validar cita en historial
+      When ingreso el usuario <username> y contrasenia <password> correctos
+      And diligencio la solicitud de cita con fecha <visitDate>
+      And ingreso al historial de citas
+      Then se visualiza mi fecha <visitDate> de cita en el historial
+    Examples: [HAPPY PATH]
+      |username |password          |visitDate |
+      |John Doe |ThisIsNotAPassword|29/04/2023|
+
+    @pagina-profile
+    Scenario Outline: Validar ingreso página Profile
+      When ingreso el usuario <username> y contrasenia <password> correctos
+      And selecciono el tab Profile
+      Then se visualiza la página Profile con título <titleProfilePage>
+      Examples: [HAPPY PATH]
+        |username |password          |titleProfilePage|
+        |John Doe |ThisIsNotAPassword|Profile         |
+
